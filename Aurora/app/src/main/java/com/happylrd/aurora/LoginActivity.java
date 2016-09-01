@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = til_user_name.getEditText().getText().toString();
                 String password = til_password.getEditText().getText().toString();
+
                 doLogin(username, password);
             }
         });
