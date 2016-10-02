@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -258,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGenerated(Palette palette) {
                 Palette.Swatch vibrant = palette.getVibrantSwatch();
+                Log.d("Vibrant is null", (vibrant == null)+"");
                 mHeadView.setBackgroundColor(vibrant.getRgb());
             }
         });

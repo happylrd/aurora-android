@@ -101,6 +101,7 @@ public class CardFindFragment extends Fragment {
         public TextView tv_text_content;
         public ImageView iv_pic_content;
         private ImageButton ibtn_praise;
+        private ImageButton ibtn_comment;
 
         public WriteSthHolder(View itemView) {
             super(itemView);
@@ -118,11 +119,21 @@ public class CardFindFragment extends Fragment {
             tv_text_content = (TextView) itemView.findViewById(R.id.tv_text_content);
             iv_pic_content = (ImageView) itemView.findViewById(R.id.iv_pic);
             ibtn_praise = (ImageButton) itemView.findViewById(R.id.ibtn_praise);
+            ibtn_comment = (ImageButton) itemView.findViewById(R.id.ibtn_comment);
 
             ibtn_praise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickPraiseLogic();
+                }
+            });
+
+            ibtn_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("IdForComment ", mWriteSth.getObjectId() + "");
+                    Intent intent = CommentActivity.newIntent(getActivity(), mWriteSth.getObjectId());
+                    startActivity(intent);
                 }
             });
         }

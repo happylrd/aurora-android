@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView tv_nick_name;
     private TextView tv_text_content;
 
+    private ImageButton ibtn_comment;
+
     public static Intent newIntent(Context context, String writeSthId) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_WRITESTH_ID, writeSthId);
@@ -68,6 +71,7 @@ public class DetailActivity extends AppCompatActivity {
 
         initView();
         initData();
+        initListener();
 
         mPicAdapter = new PicAdapter();
         recyclerView.setAdapter(mPicAdapter);
@@ -86,7 +90,19 @@ public class DetailActivity extends AppCompatActivity {
         civ_head_portrait_bg = (CircleImageView) findViewById(R.id.civ_head_portrait_bg);
         civ_head_portrait = (CircleImageView) findViewById(R.id.civ_head_portrait);
 
+        ibtn_comment = (ImageButton) findViewById(R.id.ibtn_comment);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
+    }
+
+    private void initListener() {
+        ibtn_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = CommentActivity.newIntent(DetailActivity.this, WRITESTH_ID);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {
