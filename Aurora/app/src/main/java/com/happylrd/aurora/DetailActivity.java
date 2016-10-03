@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -53,7 +53,6 @@ public class DetailActivity extends AppCompatActivity {
     private CircleImageView civ_head_portrait;
     private TextView tv_nick_name;
     private TextView tv_text_content;
-
     private ImageButton ibtn_comment;
 
     public static Intent newIntent(Context context, String writeSthId) {
@@ -92,7 +91,7 @@ public class DetailActivity extends AppCompatActivity {
 
         ibtn_comment = (ImageButton) findViewById(R.id.ibtn_comment);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(DetailActivity.this));
+        recyclerView.setLayoutManager(new GridLayoutManager(DetailActivity.this, 3));
     }
 
     private void initListener() {
@@ -153,9 +152,8 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private class PicHolder extends RecyclerView.ViewHolder {
-
         private String mPicUrl;
-        public ImageView iv_pic;
+        private ImageView iv_pic;
 
         public PicHolder(View itemView) {
             super(itemView);

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,7 +39,6 @@ import cn.bmob.v3.listener.UpdateListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CardFindFragment extends Fragment {
-
     public static final String PRAISE_COLUMN_NAME = "praise";
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -92,16 +92,16 @@ public class CardFindFragment extends Fragment {
     }
 
     private class WriteSthHolder extends RecyclerView.ViewHolder {
-
         private WriteSth mWriteSth;
 
-        public TextView tv_nick_name;
-        public CircleImageView civ_head_portrait;
-
-        public TextView tv_text_content;
-        public ImageView iv_pic_content;
+        private TextView tv_nick_name;
+        private CircleImageView civ_head_portrait;
+        private TextView tv_text_content;
         private ImageButton ibtn_praise;
         private ImageButton ibtn_comment;
+
+        private RecyclerView rv_pics;
+        private PicAdapter mPicAdapter;
 
         public WriteSthHolder(View itemView) {
             super(itemView);
@@ -117,10 +117,14 @@ public class CardFindFragment extends Fragment {
             tv_nick_name = (TextView) itemView.findViewById(R.id.tv_nick_name);
             civ_head_portrait = (CircleImageView) itemView.findViewById(R.id.civ_head_portrait);
             tv_text_content = (TextView) itemView.findViewById(R.id.tv_text_content);
-            iv_pic_content = (ImageView) itemView.findViewById(R.id.iv_pic);
+
+            rv_pics = (RecyclerView) itemView.findViewById(R.id.rv_pics);
+            rv_pics.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+            mPicAdapter = new PicAdapter();
+            rv_pics.setAdapter(mPicAdapter);
+
             ibtn_praise = (ImageButton) itemView.findViewById(R.id.ibtn_praise);
             ibtn_comment = (ImageButton) itemView.findViewById(R.id.ibtn_comment);
-
             ibtn_praise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -163,11 +167,9 @@ public class CardFindFragment extends Fragment {
                 tv_text_content.setText(mWriteSth.getTextContent());
             }
 
+            Log.d("Pic is null?", (writeSth.getPicsPathList() == null) + "");
             if (mWriteSth.getPicsPathList() != null) {
-                // just show the first picture
-                Glide.with(getActivity())
-                        .load(mWriteSth.getPicsPathList().get(0))
-                        .into(iv_pic_content);
+                mPicAdapter.addAll(writeSth.getPicsPathList());
             }
 
             // need to set praise view
@@ -309,6 +311,60 @@ public class CardFindFragment extends Fragment {
 
         public void addAllInFront(List<WriteSth> writeSths) {
             mWriteSthList.addAll(0, writeSths);
+            notifyDataSetChanged();
+        }
+    }
+
+    private class PicHolder extends RecyclerView.ViewHolder {
+        private String mPicUrl;
+        private ImageView iv_pic;
+
+        public PicHolder(View itemView) {
+            super(itemView);
+
+            iv_pic = (ImageView) itemView.findViewById(R.id.iv_pic);
+        }
+
+        public void bindPicUrl(String picUrl) {
+            mPicUrl = picUrl;
+            Log.d("Pic Url ", picUrl);
+
+            Glide.with(getActivity())
+                    .load(picUrl)
+                    .into(iv_pic);
+        }
+    }
+
+    private class PicAdapter extends RecyclerView.Adapter<PicHolder> {
+
+        private List<String> mPicUrlList;
+
+        public PicAdapter() {
+            mPicUrlList = new ArrayList<>();
+        }
+
+        @Override
+        public PicHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View view = inflater
+                    .inflate(R.layout.item_pic, parent, false);
+            return new PicHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(PicHolder holder, int position) {
+            String picUrl = mPicUrlList.get(position);
+            holder.bindPicUrl(picUrl);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mPicUrlList.size();
+        }
+
+        public void addAll(List<String> picUrlList) {
+            mPicUrlList.addAll(picUrlList);
+            Log.d("writeSthList size: ", mPicUrlList.size() + "");
             notifyDataSetChanged();
         }
     }

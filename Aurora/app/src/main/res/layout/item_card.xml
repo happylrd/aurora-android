@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_height"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginBottom="@dimen/md_keylines"
     android:foreground="?attr/selectableItemBackground">
@@ -60,24 +60,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/civ_head_portrait"
-            android:layout_marginBottom="@dimen/md_keylines"
-            android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_marginRight="@dimen/md_keylines"
-            android:layout_marginTop="@dimen/md_keylines"
+            android:layout_margin="@dimen/md_keylines"
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/grey_dark"
             android:textSize="@dimen/article_subheading"
             tools:text="@string/item_desc" />
 
-        <ImageView
-            android:id="@+id/iv_pic"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_pics"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_image_height"
+            android:layout_height="wrap_content"
             android:layout_below="@id/tv_text_content"
-            android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_marginRight="@dimen/md_keylines"
-            android:scaleType="centerCrop" />
+            android:layout_margin="@dimen/md_keylines" />
 
         <ImageButton
             android:id="@+id/share_button"
@@ -85,7 +80,7 @@
             android:layout_width="@dimen/cards_button_width"
             android:layout_height="@dimen/cards_button_height"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/iv_pic"
+            android:layout_below="@id/rv_pics"
             android:layout_marginRight="@dimen/md_keylines"
             android:tint="@color/grey_image_button"
             app:srcCompat="@drawable/ic_share_black_24dp" />
@@ -95,7 +90,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="@dimen/cards_button_width"
             android:layout_height="@dimen/cards_button_height"
-            android:layout_below="@+id/iv_pic"
+            android:layout_below="@id/rv_pics"
             android:layout_marginRight="@dimen/md_keylines"
             android:layout_toLeftOf="@id/share_button"
             android:tint="@color/grey_image_button"
@@ -106,7 +101,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="@dimen/cards_button_width"
             android:layout_height="@dimen/cards_button_height"
-            android:layout_below="@+id/iv_pic"
+            android:layout_below="@id/rv_pics"
             android:layout_marginRight="@dimen/md_keylines"
             android:layout_toLeftOf="@id/ibtn_comment"
             android:tint="@color/grey_image_button"
