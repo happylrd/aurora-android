@@ -1,5 +1,6 @@
 package com.happylrd.aurora;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,7 +14,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,11 +29,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.happylrd.aurora.constant.Constants;
 import com.happylrd.aurora.entity.MyUser;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
@@ -41,8 +43,10 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.nereo.multi_image_selector.MultiImageSelector;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
-public class PersonalInfoActivity extends AppCompatActivity {
+public class PersonalInfoActivity extends BasePermissionActivity {
 
     private final int REQUEST_CAMERA = 0;
     private final int REQUEST_GALLERY = 1;
@@ -300,12 +304,12 @@ public class PersonalInfoActivity extends AppCompatActivity {
         tv_age.setText(integer_age + "");
     }
 
-    private void uploadAndUpdateHeadPortrait(File picFile) {
-        if (picFile == null || !picFile.exists()) {
+    private void uploadAndUpdateHeadPortrait(String picPath) {
+        if (picPath == null) {
             return;
         }
 
-        final BmobFile bmobFile = new BmobFile(picFile);
+        final BmobFile bmobFile = new BmobFile(new File(picPath));
         bmobFile.uploadblock(new UploadFileListener() {
             @Override
             public void done(BmobException e) {
@@ -416,7 +420,7 @@ public class PersonalInfoActivity extends AppCompatActivity {
                 if (items[item].equals("拍照")) {
                     cameraIntent();
                 } else if (items[item].equals("选择照片")) {
-                    galleryIntent();
+                    sdCardPermission();
                 }
             }
         });
@@ -433,11 +437,31 @@ public class PersonalInfoActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
+    /**
+     * the start of choosing picture in gallery
+     */
+    private void sdCardPermission() {
+        if (hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            doSDCardPermission();
+        } else {
+            requestPermission(Constants.WRITE_EXTERNAL_CODE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    /**
+     * the business logic of choosing picture in gallery
+     */
+    @Override
+    public void doSDCardPermission() {
+        galleryIntent();
+    }
+
     private void galleryIntent() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(Intent.createChooser(intent, "选择图片"),
-                REQUEST_GALLERY);
+        MultiImageSelector.create()
+                .showCamera(false)
+                .single()
+                .start(PersonalInfoActivity.this, REQUEST_GALLERY);
     }
 
     @Override
@@ -448,19 +472,15 @@ public class PersonalInfoActivity extends AppCompatActivity {
         }
 
         if (requestCode == REQUEST_CAMERA) {
-            uploadAndUpdateHeadPortrait(pic_file);
-
+            uploadAndUpdateHeadPortrait(pic_file.getPath());
         } else if (requestCode == REQUEST_GALLERY) {
+            List<String> picPath = data
+                    .getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
 
-            // just a demo, need to be modified
-            Uri uri = data.getData();
-            Log.d("Uri Path ", uri.toString());
-            Glide.with(PersonalInfoActivity.this)
-                    .load(uri)
-                    .into(civ_head_portrait);
-            Glide.with(PersonalInfoActivity.this)
-                    .load(uri)
-                    .into(iv_head_portrait);
+            if (picPath.size() == 1) {
+                loadHeadPortraitByPath(picPath.get(0));
+            }
+            uploadAndUpdateHeadPortrait(picPath.get(0));
         }
     }
 }
