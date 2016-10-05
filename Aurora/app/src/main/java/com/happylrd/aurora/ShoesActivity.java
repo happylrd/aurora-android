@@ -1,7 +1,6 @@
 package com.happylrd.aurora;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -78,8 +77,8 @@ public class ShoesActivity extends AppCompatActivity {
 
     public void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ListMessageFragment(), "左鞋");
-        adapter.addFragment(new ListMessageFragment(), "右鞋");
+        adapter.addFragment(new LeftShoeFragment(), "左鞋");
+        adapter.addFragment(new RightShoeFragment(), "右鞋");
         viewPager.setAdapter(adapter);
     }
 
@@ -163,24 +162,9 @@ public class ShoesActivity extends AppCompatActivity {
             }
         });
 
-        colorDialogBuilder.setTitle("选择颜色")
-                .setCancelable(false)
-                .setView(dialogView)
-                .setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // set shoes color, just a demo below
-                                // shoesColor = colorPicker.getColor();
-                            }
-                        })
-                .setNegativeButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+        colorDialogBuilder
+                .setCancelable(true)
+                .setView(dialogView);
 
         colorDialogBuilder.create().show();
     }
