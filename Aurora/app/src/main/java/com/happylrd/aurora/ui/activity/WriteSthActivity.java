@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -24,9 +24,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.happylrd.aurora.R;
 import com.happylrd.aurora.constant.Constants;
-import com.happylrd.aurora.entity.MyUser;
-import com.happylrd.aurora.entity.WriteSth;
+import com.happylrd.aurora.model.MyUser;
+import com.happylrd.aurora.model.WriteSth;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

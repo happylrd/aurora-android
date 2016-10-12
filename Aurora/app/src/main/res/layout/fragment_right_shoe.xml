@@ -5,7 +5,7 @@
     android:background="@color/black_shallow"
     android:orientation="vertical">
 
-    <com.happylrd.aurora.view.ShoeView
+    <com.happylrd.aurora.ui.view.ShoeView
         android:id="@+id/right_shoe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.happylrd.aurora.entity.MyUser;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.MyUser;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;

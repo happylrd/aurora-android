@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.happylrd.aurora.entity.MyUser;
+import com.happylrd.aurora.ui.activity.ColorSchemeActivity;
+import com.happylrd.aurora.ui.activity.PersonalInfoActivity;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.MyUser;
 
 import cn.bmob.v3.BmobUser;
 

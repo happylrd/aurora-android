@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.happylrd.aurora.entity.MyUser;
-import com.happylrd.aurora.entity.WriteSth;
+import com.happylrd.aurora.ui.activity.CommentActivity;
+import com.happylrd.aurora.ui.activity.DetailActivity;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.MyUser;
+import com.happylrd.aurora.model.WriteSth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

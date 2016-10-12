@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.happylrd.aurora.R;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +59,12 @@ public class ListPatternFragment extends Fragment {
             super(itemView);
 
             itemAvatar = (ImageView) itemView.findViewById(R.id.item_newlist_image);
+            itemAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
 
@@ -79,20 +87,6 @@ public class ListPatternFragment extends Fragment {
         @Override
         public void onBindViewHolder(PatternHolder holder, int position) {
             holder.itemAvatar.setBackgroundResource(mContents.get(position));
-
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(MainActivity.service!= null){
-//                        String send = "" + names[position];
-//                        MainActivity.service.write(send.getBytes());
-//                    }
-//                    else
-//                    {
-//                        Toast.makeText(getActivity(),"请先连接蓝牙！",Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
         }
 
         @Override

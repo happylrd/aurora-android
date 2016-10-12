@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.happylrd.aurora.view.ShoeView;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.ui.view.ShoeView;
 
 public class LeftShoeFragment extends Fragment {
 

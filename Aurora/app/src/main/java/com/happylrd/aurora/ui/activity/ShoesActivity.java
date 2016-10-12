@@ -1,9 +1,8 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,9 +12,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.ui.dialog.TabDialog;
+import com.happylrd.aurora.ui.fragment.LeftShoeFragment;
+import com.happylrd.aurora.ui.fragment.RightShoeFragment;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SaturationBar;
@@ -29,7 +36,11 @@ public class ShoesActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private FrameLayout frameLayout;
+    private FloatingActionsMenu fabMenu;
     private FloatingActionButton fab_color_picker;
+    private FloatingActionButton fab_action;
 
     private ColorPicker colorPicker;
     private OpacityBar opacityBar;
@@ -63,14 +74,47 @@ public class ShoesActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
+        frameLayout.getBackground().setAlpha(0);
+
+        fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         fab_color_picker = (FloatingActionButton) findViewById(R.id.fab_color_picker);
+        fab_action = (FloatingActionButton) findViewById(R.id.fab_action);
     }
 
     private void initListener() {
+
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                frameLayout.getBackground().setAlpha(240);
+                frameLayout.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        fabMenu.collapse();
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                frameLayout.getBackground().setAlpha(0);
+                frameLayout.setOnTouchListener(null);
+            }
+        });
+
         fab_color_picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showColorPickerDialog();
+            }
+        });
+
+        fab_action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTabDialog();
             }
         });
     }
@@ -167,5 +211,10 @@ public class ShoesActivity extends AppCompatActivity {
                 .setView(dialogView);
 
         colorDialogBuilder.create().show();
+    }
+
+    private void showTabDialog() {
+        TabDialog tabDialog = TabDialog.newInstance();
+        tabDialog.show(getSupportFragmentManager(), "dialog");
     }
 }

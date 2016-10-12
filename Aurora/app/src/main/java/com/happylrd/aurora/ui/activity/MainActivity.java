@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +30,12 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.happylrd.aurora.entity.MyUser;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.MyUser;
+import com.happylrd.aurora.ui.fragment.CardFindFragment;
+import com.happylrd.aurora.ui.fragment.ListPatternFragment;
+import com.happylrd.aurora.ui.fragment.MyInfoFragment;
+import com.happylrd.aurora.ui.fragment.StepCounterFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
             public void onMenuCollapsed() {
                 frameLayout.getBackground().setAlpha(0);
                 frameLayout.setOnTouchListener(null);
-
             }
         });
 

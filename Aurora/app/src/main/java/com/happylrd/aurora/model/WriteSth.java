@@ -1,4 +1,4 @@
-package com.happylrd.aurora.entity;
+package com.happylrd.aurora.model;
 
 import java.util.List;
 

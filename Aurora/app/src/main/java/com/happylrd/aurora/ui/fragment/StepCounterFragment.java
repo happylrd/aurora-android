@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.happylrd.aurora.R;
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
@@ -26,19 +27,14 @@ public class StepCounterFragment extends Fragment {
     private int mBackIndex;
     private static int mDataIndex_1;
 
-    //通过蓝牙获取
+    private static int step_goal = 10000;
+    // need to be fetched by bluetooth
     public static int step_num = 5500;
-    private static int goal = 10000;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_step_counter, container, false);
-
-//        if(MainActivity.service != null) {
-//            MainActivity.service.write("step".getBytes());
-//            Log.d("aaa","记步界面发送step");
-//        }
 
         mDecoView = (DecoView) view.findViewById(R.id.dynamicArcView);
 
@@ -48,7 +44,7 @@ public class StepCounterFragment extends Fragment {
         et_step_goal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                goal = Integer.parseInt(et_step_goal.getText().toString());
+                step_goal = Integer.parseInt(et_step_goal.getText().toString());
                 setUI();
                 return false;
             }
@@ -104,7 +100,7 @@ public class StepCounterFragment extends Fragment {
     }
 
     public static void setUI() {
-        float precent = 1.0f * step_num / goal;
+        float precent = 1.0f * step_num / step_goal;
         if (precent > 1) {
             precent = 1;
         }
@@ -117,7 +113,7 @@ public class StepCounterFragment extends Fragment {
                 float percentFilled = (
                         (currentPosition - seriesItem.getMinValue()) /
                                 (seriesItem.getMaxValue()));
-                tv_step_num.setText("" + (int) (goal * percentFilled));
+                tv_step_num.setText("" + (int) (step_goal * percentFilled));
             }
 
             @Override

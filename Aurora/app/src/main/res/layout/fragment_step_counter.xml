@@ -60,6 +60,7 @@
                 android:id="@+id/et_step_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:text="10000"
                 android:textColor="@color/colorAccent"
                 android:textSize="30sp" />

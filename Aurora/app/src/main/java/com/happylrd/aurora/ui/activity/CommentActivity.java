@@ -1,4 +1,4 @@
-package com.happylrd.aurora;
+package com.happylrd.aurora.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.happylrd.aurora.entity.Comment;
-import com.happylrd.aurora.entity.MyUser;
-import com.happylrd.aurora.entity.WriteSth;
+import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.Comment;
+import com.happylrd.aurora.model.MyUser;
+import com.happylrd.aurora.model.WriteSth;
 
 import java.util.ArrayList;
 import java.util.List;

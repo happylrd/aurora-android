@@ -1,4 +1,4 @@
-package com.happylrd.aurora.view;
+package com.happylrd.aurora.ui.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
