@@ -50,9 +50,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|bottom"
-                fab:fab_addButtonColorNormal="@color/pink"
-                fab:fab_addButtonColorPressed="@color/pink_dark"
-                fab:fab_addButtonPlusIconColor="@color/white"
+                fab:fab_addButtonColorNormal="@color/colorAccent"
+                fab:fab_addButtonColorPressed="@color/yellow_dark"
+                fab:fab_addButtonPlusIconColor="@color/black_shallow"
                 fab:fab_addButtonStrokeVisible="false"
                 fab:fab_labelStyle="@style/menu_labels_style"
                 fab:fab_labelsPosition="left">
@@ -61,10 +61,10 @@
                     android:id="@+id/fab_color_picker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/white"
-                    fab:fab_colorPressed="@color/grey"
+                    fab:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/yellow_dark"
                     fab:fab_icon="@drawable/ic_color_lens_black_24dp"
-                    fab:fab_plusIconColor="@color/white"
+                    fab:fab_plusIconColor="@color/black_shallow"
                     fab:fab_size="mini"
                     fab:fab_title="让色彩拥抱你" />
 
@@ -72,10 +72,10 @@
                     android:id="@+id/fab_write_sth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/white"
-                    fab:fab_colorPressed="@color/grey"
+                    fab:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/yellow_dark"
                     fab:fab_icon="@drawable/ic_mode_edit_black_24dp"
-                    fab:fab_plusIconColor="@color/white"
+                    fab:fab_plusIconColor="@color/black_shallow"
                     fab:fab_size="mini"
                     fab:fab_title="说点什么" />
 
@@ -83,21 +83,32 @@
                     android:id="@+id/fab_wrap_shoes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/white"
-                    fab:fab_colorPressed="@color/grey"
+                    fab:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/yellow_dark"
                     fab:fab_icon="@drawable/ic_3d_rotation_black_24dp"
-                    fab:fab_plusIconColor="@color/white"
+                    fab:fab_plusIconColor="@color/black_shallow"
                     fab:fab_size="mini"
                     fab:fab_title="来给鞋子加特效" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_open_bluetooth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/yellow_dark"
+                    fab:fab_icon="@drawable/ic_bluetooth_black_24dp"
+                    fab:fab_plusIconColor="@color/black_shallow"
+                    fab:fab_size="mini"
+                    fab:fab_title="打开蓝牙" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_others"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fab:fab_colorNormal="@color/white"
-                    fab:fab_colorPressed="@color/grey"
+                    fab:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/yellow_dark"
                     fab:fab_icon="@drawable/ic_more_vert_black_24dp"
-                    fab:fab_plusIconColor="@color/white"
+                    fab:fab_plusIconColor="@color/black_shallow"
                     fab:fab_size="mini"
                     fab:fab_title="别的好玩的事情" />
             </com.getbase.floatingactionbutton.FloatingActionsMenu>
@@ -112,7 +123,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navheader"
         app:menu="@menu/menu_navigation" />
-
 </android.support.v4.widget.DrawerLayout>
 
 
