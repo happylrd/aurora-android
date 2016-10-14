@@ -10,7 +10,8 @@ import com.happylrd.aurora.R;
 import com.happylrd.aurora.ui.view.ShoeView;
 
 public class RightShoeFragment extends Fragment {
-    private ShoeView mShoeView;
+
+    private ShoeView mRightShoe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -18,7 +19,19 @@ public class RightShoeFragment extends Fragment {
         View view = inflater
                 .inflate(R.layout.fragment_right_shoe, container, false);
 
-        mShoeView = (ShoeView) view.findViewById(R.id.right_shoe);
+        mRightShoe = (ShoeView) view.findViewById(R.id.right_shoe);
         return view;
+    }
+
+    public int getColor() {
+        return mRightShoe.getTempColor();
+    }
+
+    public void setColor(int color) {
+        mRightShoe.setTempColor(color);
+    }
+
+    public String[] getLC() {
+        return mRightShoe.getLC();
     }
 }

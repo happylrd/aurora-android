@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionsMenu fabMenu;
     private FloatingActionButton fab_write_sth;
     private FloatingActionButton fab_wrap_shoes;
-    private FloatingActionButton fab_color_picker;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -106,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         fab_write_sth = (FloatingActionButton) findViewById(R.id.fab_write_sth);
         fab_wrap_shoes = (FloatingActionButton) findViewById(R.id.fab_wrap_shoes);
-        fab_color_picker = (FloatingActionButton) findViewById(R.id.fab_color_picker);
     }
 
     private void initListener() {
@@ -148,22 +146,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = WriteSthActivity.newIntent(MainActivity.this);
                 startActivity(intent);
+
+                frameLayout.getBackground().setAlpha(0);
+                fabMenu.collapse();
             }
         });
 
         fab_wrap_shoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ShoesActivity.newIntent(MainActivity.this);
+                Intent intent = StateActivity.newIntent(MainActivity.this);
                 startActivity(intent);
-            }
-        });
 
-        fab_color_picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = ColorPickerActivity.newIntent(MainActivity.this);
-                startActivity(intent);
+                frameLayout.getBackground().setAlpha(0);
+                fabMenu.collapse();
             }
         });
     }
@@ -263,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onGenerated(Palette palette) {
                 Palette.Swatch vibrant = palette.getVibrantSwatch();
-                Log.d("Vibrant is null", (vibrant == null)+"");
+                Log.d("Vibrant is null", (vibrant == null) + "");
                 mHeadView.setBackgroundColor(vibrant.getRgb());
             }
         });

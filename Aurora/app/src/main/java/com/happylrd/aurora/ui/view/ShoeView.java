@@ -126,9 +126,9 @@ public class ShoeView extends View {
     }
 
     public void setTempColor(int tempColor) {
-        Log.i("aaa", "开始调用组件的设置颜色！");
+        Log.i("Color Begin", "开始调用组件的设置颜色！");
         this.tempColor = tempColor;
-        Log.i("aaa", "设置颜色成功！");
+        Log.i("Color Set Success", "设置颜色成功！");
     }
 
     private static String colorToHexString(int color) {

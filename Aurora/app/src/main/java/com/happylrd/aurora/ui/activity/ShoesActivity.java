@@ -8,25 +8,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.happylrd.aurora.R;
+import com.happylrd.aurora.ui.dialog.ColorPickerDialog;
 import com.happylrd.aurora.ui.dialog.TabDialog;
 import com.happylrd.aurora.ui.fragment.LeftShoeFragment;
 import com.happylrd.aurora.ui.fragment.RightShoeFragment;
-import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.OpacityBar;
-import com.larswerkman.holocolorpicker.SaturationBar;
-import com.larswerkman.holocolorpicker.ValueBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +36,8 @@ public class ShoesActivity extends AppCompatActivity {
     private FloatingActionButton fab_color_picker;
     private FloatingActionButton fab_action;
 
-    private ColorPicker colorPicker;
-    private OpacityBar opacityBar;
-    private SaturationBar saturationBar;
-    private ValueBar valueBar;
-    private Button btn_determine_color;
+    private LeftShoeFragment mLeftShoeFragment;
+    private RightShoeFragment mRightShoeFragment;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, ShoesActivity.class);
@@ -108,6 +99,8 @@ public class ShoesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showColorPickerDialog();
+                frameLayout.getBackground().setAlpha(0);
+                fabMenu.collapse();
             }
         });
 
@@ -115,14 +108,20 @@ public class ShoesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showTabDialog();
+                frameLayout.getBackground().setAlpha(0);
+                fabMenu.collapse();
             }
         });
     }
 
     public void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new LeftShoeFragment(), "左鞋");
-        adapter.addFragment(new RightShoeFragment(), "右鞋");
+
+        mLeftShoeFragment = new LeftShoeFragment();
+        mRightShoeFragment = new RightShoeFragment();
+
+        adapter.addFragment(mLeftShoeFragment, "左鞋");
+        adapter.addFragment(mRightShoeFragment, "右鞋");
         viewPager.setAdapter(adapter);
     }
 
@@ -155,66 +154,18 @@ public class ShoesActivity extends AppCompatActivity {
         }
     }
 
-    private void showColorPickerDialog() {
-        AlertDialog.Builder colorDialogBuilder =
-                new AlertDialog.Builder(ShoesActivity.this);
-        LayoutInflater inflater = LayoutInflater.from(ShoesActivity.this);
-        View dialogView = inflater.inflate(R.layout.dialog_color_picker, null);
-
-        colorPicker = (ColorPicker) dialogView.findViewById(R.id.color_picker);
-        opacityBar = (OpacityBar) dialogView.findViewById(R.id.opacity_bar);
-        saturationBar = (SaturationBar) dialogView.findViewById(R.id.saturation_bar);
-        valueBar = (ValueBar) dialogView.findViewById(R.id.value_bar);
-
-        colorPicker.addOpacityBar(opacityBar);
-        colorPicker.addSaturationBar(saturationBar);
-        colorPicker.addValueBar(valueBar);
-
-        btn_determine_color = (Button) dialogView.findViewById(R.id.btn_determine_color);
-        btn_determine_color.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                colorPicker.setOldCenterColor(colorPicker.getColor());
-            }
-        });
-
-        colorPicker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
-            @Override
-            public void onColorChanged(int color) {
-
-            }
-        });
-
-        opacityBar.setOnOpacityChangedListener(new OpacityBar.OnOpacityChangedListener() {
-            @Override
-            public void onOpacityChanged(int opacity) {
-
-            }
-        });
-
-        saturationBar.setOnSaturationChangedListener(new SaturationBar.OnSaturationChangedListener() {
-            @Override
-            public void onSaturationChanged(int saturation) {
-
-            }
-        });
-
-        valueBar.setOnValueChangedListener(new ValueBar.OnValueChangedListener() {
-            @Override
-            public void onValueChanged(int value) {
-
-            }
-        });
-
-        colorDialogBuilder
-                .setCancelable(true)
-                .setView(dialogView);
-
-        colorDialogBuilder.create().show();
-    }
-
     private void showTabDialog() {
         TabDialog tabDialog = TabDialog.newInstance();
-        tabDialog.show(getSupportFragmentManager(), "dialog");
+        tabDialog.show(getSupportFragmentManager(), "tabDialog");
+    }
+
+    private void showColorPickerDialog() {
+        ColorPickerDialog colorPickerDialog = ColorPickerDialog.newInstance();
+        colorPickerDialog.show(getSupportFragmentManager(), "colorPickerDialog");
+    }
+
+    public void setShoesColor(int color) {
+        mLeftShoeFragment.setColor(color);
+        mRightShoeFragment.setColor(color);
     }
 }

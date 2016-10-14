@@ -15,14 +15,12 @@ import com.happylrd.aurora.R;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class ListPatternFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private PatternAdapter mPatternAdapter;
     private List<Integer> pics;
     private String[] names = {"wave", "ball", "star", "go", "fire", "eye", "charse"};
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

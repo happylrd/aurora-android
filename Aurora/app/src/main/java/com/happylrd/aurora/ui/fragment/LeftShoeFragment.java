@@ -23,6 +23,10 @@ public class LeftShoeFragment extends Fragment {
         return view;
     }
 
+    public int getColor() {
+        return mLeftShoe.getTempColor();
+    }
+
     public void setColor(int color) {
         mLeftShoe.setTempColor(color);
     }

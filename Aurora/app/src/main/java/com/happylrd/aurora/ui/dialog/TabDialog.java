@@ -20,12 +20,12 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class TabDialog extends DialogFragment {
 
-    public TabDialog() {
-    }
-
     public static TabDialog newInstance() {
         TabDialog tabDialog = new TabDialog();
         return tabDialog;
+    }
+
+    public TabDialog() {
     }
 
     @Override

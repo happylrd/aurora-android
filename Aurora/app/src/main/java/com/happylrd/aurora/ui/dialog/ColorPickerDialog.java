@@ -1,65 +1,66 @@
-package com.happylrd.aurora.ui.activity;
+package com.happylrd.aurora.ui.dialog;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.happylrd.aurora.R;
+import com.happylrd.aurora.ui.activity.ShoesActivity;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 
-public class ColorPickerActivity extends AppCompatActivity {
+public class ColorPickerDialog extends DialogFragment {
 
     private ColorPicker colorPicker;
     private OpacityBar opacityBar;
     private SaturationBar saturationBar;
     private ValueBar valueBar;
 
-    private Toolbar toolbar;
     private Button btn_determine_color;
 
-    public static Intent newIntent(Context context) {
-        Intent intent = new Intent(context, ColorPickerActivity.class);
-        return intent;
+    public static ColorPickerDialog newInstance() {
+        ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+        return colorPickerDialog;
+    }
+
+    public ColorPickerDialog() {
+
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_picker);
-
-        initView();
-        initListener();
     }
 
-    private void initView() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("色彩选择");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_color_picker, container);
 
-        colorPicker = (ColorPicker) findViewById(R.id.color_picker);
-        opacityBar = (OpacityBar) findViewById(R.id.opacity_bar);
-        saturationBar = (SaturationBar) findViewById(R.id.saturation_bar);
-        valueBar = (ValueBar) findViewById(R.id.value_bar);
+        colorPicker = (ColorPicker) view.findViewById(R.id.color_picker);
+        opacityBar = (OpacityBar) view.findViewById(R.id.opacity_bar);
+        saturationBar = (SaturationBar) view.findViewById(R.id.saturation_bar);
+        valueBar = (ValueBar) view.findViewById(R.id.value_bar);
 
         colorPicker.addOpacityBar(opacityBar);
         colorPicker.addSaturationBar(saturationBar);
         colorPicker.addValueBar(valueBar);
-        btn_determine_color = (Button) findViewById(R.id.btn_determine_color);
-    }
 
-    private void initListener() {
+        btn_determine_color = (Button) view.findViewById(R.id.btn_determine_color);
         btn_determine_color.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 colorPicker.setOldCenterColor(colorPicker.getColor());
+
+                // Not elegant here,but I haven't found a better solution yet.
+                ((ShoesActivity) getActivity()).setShoesColor(colorPicker.getColor());
+
+                dismiss();
             }
         });
 
@@ -90,5 +91,7 @@ public class ColorPickerActivity extends AppCompatActivity {
 
             }
         });
+
+        return view;
     }
 }

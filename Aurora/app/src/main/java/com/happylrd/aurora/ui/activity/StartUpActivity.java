@@ -10,7 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class StartUpActivity extends AppCompatActivity {
-    private static final long JUMP_DELAY = 3000L;
+    private static final long JUMP_DELAY = 2000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
