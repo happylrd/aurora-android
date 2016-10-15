@@ -62,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_wrap_shoes;
     private FloatingActionButton fab_open_music;
 
+    /**
+     * just for bluetooth, but need structured
+     */
+    public static final int MESSAGE_READ = 4;
+    public static final int MESSAGE_TOAST = 6;
+
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         return intent;
