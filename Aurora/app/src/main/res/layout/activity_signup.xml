@@ -67,9 +67,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/til_password"
         android:layout_margin="@dimen/md_keylines"
-        android:backgroundTint="#11C1F3"
         android:text="注册"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:theme="@style/btn_login_and_signup"/>
 
     <Button
         android:id="@+id/btn_goto_login"
@@ -79,5 +79,6 @@
         android:layout_alignRight="@id/btn_signup"
         android:layout_below="@id/btn_signup"
         android:text="返回登录"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:theme="@style/btn_dialog_color_picker"/>
 </RelativeLayout>

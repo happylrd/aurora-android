@@ -21,8 +21,9 @@
 
     <color name="yellow">#FFFF00</color>
     <color name="yellow_dark">#FFC107</color>
+    <color name="yellow_deep_dark">#C2991D</color>
 
     <color name="cyan_light">#00BCD4</color>
-    
+
     <color name="secondary_text">#727272</color>
 </resources>

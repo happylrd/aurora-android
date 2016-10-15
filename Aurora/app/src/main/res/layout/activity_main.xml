@@ -91,6 +91,17 @@
                     fab:fab_title="打开蓝牙" />
 
                 <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_open_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    fab:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/yellow_dark"
+                    fab:fab_icon="@drawable/ic_equalizer_black_24dp"
+                    fab:fab_plusIconColor="@color/black_shallow"
+                    fab:fab_size="mini"
+                    fab:fab_title="打开音乐" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_others"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

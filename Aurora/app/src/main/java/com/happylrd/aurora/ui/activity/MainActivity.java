@@ -30,6 +30,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.happylrd.aurora.todo.MusicActivity;
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.model.MyUser;
 import com.happylrd.aurora.ui.fragment.CardFindFragment;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionsMenu fabMenu;
     private FloatingActionButton fab_write_sth;
     private FloatingActionButton fab_wrap_shoes;
+    private FloatingActionButton fab_open_music;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
         fab_write_sth = (FloatingActionButton) findViewById(R.id.fab_write_sth);
         fab_wrap_shoes = (FloatingActionButton) findViewById(R.id.fab_wrap_shoes);
+        fab_open_music = (FloatingActionButton) findViewById(R.id.fab_open_music);
     }
 
     private void initListener() {
@@ -156,6 +159,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = StateActivity.newIntent(MainActivity.this);
+                startActivity(intent);
+
+                frameLayout.getBackground().setAlpha(0);
+                fabMenu.collapse();
+            }
+        });
+
+        fab_open_music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = MusicActivity.newIntent(MainActivity.this);
                 startActivity(intent);
 
                 frameLayout.getBackground().setAlpha(0);
