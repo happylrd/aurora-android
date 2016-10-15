@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.happylrd.aurora.R;
+import com.happylrd.aurora.ui.fragment.CircleUnitFragment;
 import com.happylrd.aurora.ui.fragment.ListMessageFragment;
 
 import java.util.ArrayList;
@@ -43,9 +44,13 @@ public class TabDialog extends DialogFragment {
                 view.findViewById(R.id.circle_indicator);
 
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new ListMessageFragment(), "1");
-        adapter.addFragment(new ListMessageFragment(), "2");
-        adapter.addFragment(new ListMessageFragment(), "3");
+
+        adapter.addFragment(CircleUnitFragment.newInstance(), "1");
+        adapter.addFragment(CircleUnitFragment.newInstance(), "2");
+        adapter.addFragment(CircleUnitFragment.newInstance(), "3");
+        adapter.addFragment(new ListMessageFragment(), "4");
+        adapter.addFragment(new ListMessageFragment(), "5");
+        adapter.addFragment(new ListMessageFragment(), "6");
 
         viewPager.setAdapter(adapter);
         circleIndicator.setViewPager(viewPager);

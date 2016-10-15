@@ -9,13 +9,13 @@ import com.happylrd.aurora.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class StartUpActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
     private static final long JUMP_DELAY = 2000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_up);
+        setContentView(R.layout.activity_splash);
 
         jumpToLoginPageWithDelay(JUMP_DELAY);
     }
@@ -26,7 +26,7 @@ public class StartUpActivity extends AppCompatActivity {
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                intent.setClass(StartUpActivity.this, LoginActivity.class);
+                intent.setClass(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

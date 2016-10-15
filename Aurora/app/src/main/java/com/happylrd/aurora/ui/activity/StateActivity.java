@@ -11,8 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
+import com.github.pavlospt.CircleView;
 import com.happylrd.aurora.R;
 
 public class StateActivity extends AppCompatActivity {
@@ -22,8 +22,8 @@ public class StateActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CircleAdapter mCircleAdapter;
 
-    private ImageView iv_current_state;
-    private ImageView iv_pre_state;
+    private CircleView cv_current_state;
+    private CircleView cv_pre_state;
 
     public static Intent newIntent(Context packageContext) {
         Intent intent = new Intent(packageContext, StateActivity.class);
@@ -40,8 +40,8 @@ public class StateActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        iv_current_state = (ImageView) findViewById(R.id.iv_current_state);
-        iv_pre_state = (ImageView) findViewById(R.id.iv_pre_state);
+        cv_current_state = (CircleView) findViewById(R.id.cv_current_state);
+        cv_pre_state = (CircleView) findViewById(R.id.cv_pre_state);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("状态选择");
@@ -58,7 +58,7 @@ public class StateActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        iv_current_state.setOnClickListener(new View.OnClickListener() {
+        cv_current_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = ShoesActivity.newIntent(StateActivity.this);
@@ -66,7 +66,7 @@ public class StateActivity extends AppCompatActivity {
             }
         });
 
-        iv_pre_state.setOnClickListener(new View.OnClickListener() {
+        cv_pre_state.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = ShoesActivity.newIntent(StateActivity.this);
@@ -77,13 +77,13 @@ public class StateActivity extends AppCompatActivity {
 
     private class CircleHolder extends RecyclerView.ViewHolder {
 
-        private ImageView iv_item_circle;
+        private CircleView cv_item_circle;
 
         public CircleHolder(View itemView) {
             super(itemView);
 
-            iv_item_circle = (ImageView) itemView.findViewById(R.id.iv_item_circle);
-            iv_item_circle.setOnClickListener(new View.OnClickListener() {
+            cv_item_circle = (CircleView) itemView.findViewById(R.id.cv_item_circle);
+            cv_item_circle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = ShoesActivity.newIntent(StateActivity.this);

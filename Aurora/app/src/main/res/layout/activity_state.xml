@@ -39,19 +39,31 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/iv_current_state"
+            <com.github.pavlospt.CircleView
+                android:id="@+id/cv_current_state"
                 android:layout_width="0dp"
                 android:layout_height="130dp"
                 android:layout_weight="1"
-                android:src="@drawable/item_double_circle" />
+                app:cv_backgroundColorValue="@color/white"
+                app:cv_strokeColorValue="@color/yellow"
+                app:cv_strokeWidthSize="40"
+                app:cv_subtitleSize="0dp"
+                app:cv_titleColor="@color/white"
+                app:cv_titleSize="12dp"
+                app:cv_titleText="Schema" />
 
-            <ImageView
-                android:id="@+id/iv_pre_state"
+            <com.github.pavlospt.CircleView
+                android:id="@+id/cv_pre_state"
                 android:layout_width="0dp"
                 android:layout_height="130dp"
                 android:layout_weight="1"
-                android:src="@drawable/item_double_circle" />
+                app:cv_backgroundColorValue="@color/white"
+                app:cv_strokeColorValue="@color/cyan_light"
+                app:cv_strokeWidthSize="40"
+                app:cv_subtitleSize="0dp"
+                app:cv_titleColor="@color/white"
+                app:cv_titleSize="12dp"
+                app:cv_titleText="Schema" />
         </LinearLayout>
 
         <TextView
@@ -67,8 +79,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            android:paddingTop="16dp"
             android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>

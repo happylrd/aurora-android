@@ -41,4 +41,5 @@ dependencies {
     compile 'me.relex:circleindicator:1.2.1'
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32'
     compile 'com.sa90.materialarcmenu:library:1.4.1'
+    compile 'com.github.pavlospt:circleview:1.3'
 }
