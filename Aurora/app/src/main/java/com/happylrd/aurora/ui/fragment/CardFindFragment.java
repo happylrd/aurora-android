@@ -219,7 +219,7 @@ public class CardFindFragment extends Fragment {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {
-                        ibtn_praise.setColorFilter(getResources().getColor(R.color.colorPrimary));
+                        ibtn_praise.setColorFilter(getResources().getColor(R.color.colorAccent));
                         Log.d("Click Praise", "点赞成功");
                     } else {
                         Toast.makeText(getActivity(), "点赞失败", Toast.LENGTH_SHORT)
@@ -262,7 +262,7 @@ public class CardFindFragment extends Fragment {
                         for (int i = 0; i < list.size(); i++) {
                             Log.d("List str", list.get(i).getObjectId());
                             if (list.get(i).getObjectId().equals(BmobUser.getCurrentUser(MyUser.class).getObjectId())) {
-                                ibtn_praise.setColorFilter(getResources().getColor(R.color.colorPrimary));
+                                ibtn_praise.setColorFilter(getResources().getColor(R.color.colorAccent));
                                 break;
                             }
                         }

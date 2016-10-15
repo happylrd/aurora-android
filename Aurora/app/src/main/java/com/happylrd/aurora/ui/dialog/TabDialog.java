@@ -1,5 +1,6 @@
 package com.happylrd.aurora.ui.dialog;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -45,12 +46,14 @@ public class TabDialog extends DialogFragment {
 
         Adapter adapter = new Adapter(getChildFragmentManager());
 
-        adapter.addFragment(CircleUnitFragment.newInstance(), "1");
-        adapter.addFragment(CircleUnitFragment.newInstance(), "2");
-        adapter.addFragment(CircleUnitFragment.newInstance(), "3");
-        adapter.addFragment(new ListMessageFragment(), "4");
-        adapter.addFragment(new ListMessageFragment(), "5");
-        adapter.addFragment(new ListMessageFragment(), "6");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.YELLOW), "1");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.RED), "2");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "3");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.CYAN), "4");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.BLUE), "5");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.MAGENTA), "6");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.GRAY), "7");
+        adapter.addFragment(new ListMessageFragment(), "8");
 
         viewPager.setAdapter(adapter);
         circleIndicator.setViewPager(viewPager);
