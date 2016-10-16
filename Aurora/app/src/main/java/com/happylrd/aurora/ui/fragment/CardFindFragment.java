@@ -23,6 +23,7 @@ import com.happylrd.aurora.ui.activity.DetailActivity;
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.model.MyUser;
 import com.happylrd.aurora.model.WriteSth;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -106,6 +107,8 @@ public class CardFindFragment extends Fragment {
         private RecyclerView rv_pics;
         private PicAdapter mPicAdapter;
 
+//        private ShineButton sbtn_praise;
+
         public WriteSthHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +131,10 @@ public class CardFindFragment extends Fragment {
 
             ibtn_praise = (ImageButton) itemView.findViewById(R.id.ibtn_praise);
             ibtn_comment = (ImageButton) itemView.findViewById(R.id.ibtn_comment);
+
+//            sbtn_praise = (ShineButton) itemView.findViewById(R.id.sbtn_praise);
+//            sbtn_praise.init(getActivity());
+
             ibtn_praise.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

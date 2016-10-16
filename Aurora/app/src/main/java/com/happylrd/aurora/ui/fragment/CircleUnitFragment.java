@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.pavlospt.CircleView;
@@ -15,6 +16,7 @@ public class CircleUnitFragment extends Fragment {
     private static final String ARG_COLOR_ID = "color_id";
 
     private CircleView cv_item_circle;
+    private TextView tv_item_description;
 
     public static CircleUnitFragment newInstanceAlpha() {
         CircleUnitFragment circleUnitFragment = new CircleUnitFragment();
@@ -49,6 +51,7 @@ public class CircleUnitFragment extends Fragment {
 
     private void initView(View view) {
         cv_item_circle = (CircleView) view.findViewById(R.id.cv_item_circle);
+        tv_item_description = (TextView) view.findViewById(R.id.tv_item_description);
     }
 
     private void initData(int colorId) {

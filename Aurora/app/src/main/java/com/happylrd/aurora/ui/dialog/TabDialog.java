@@ -7,13 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.ui.fragment.CircleUnitFragment;
-import com.happylrd.aurora.ui.fragment.ListMessageFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,14 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator;
 
 public class TabDialog extends DialogFragment {
+
+    private ViewPager viewPager;
+    private CircleIndicator circleIndicator;
+
+    private RecyclerView mRecyclerView;
+    private ColorAdapter mColorAdapter;
+
+    private Button btn_ok;
 
     public static TabDialog newInstance() {
         TabDialog tabDialog = new TabDialog();
@@ -40,23 +51,36 @@ public class TabDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_tab, container);
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        CircleIndicator circleIndicator = (CircleIndicator)
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        circleIndicator = (CircleIndicator)
                 view.findViewById(R.id.circle_indicator);
 
         Adapter adapter = new Adapter(getChildFragmentManager());
 
         adapter.addFragment(CircleUnitFragment.newInstance(Color.YELLOW), "1");
         adapter.addFragment(CircleUnitFragment.newInstance(Color.RED), "2");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "3");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.CYAN), "4");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.BLUE), "5");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.MAGENTA), "6");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.GRAY), "7");
-        adapter.addFragment(new ListMessageFragment(), "8");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.CYAN), "3");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "4");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.MAGENTA), "5");
 
         viewPager.setAdapter(adapter);
         circleIndicator.setViewPager(viewPager);
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 8));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        mColorAdapter = new ColorAdapter();
+        mRecyclerView.setAdapter(mColorAdapter);
+
+        btn_ok = (Button) view.findViewById(R.id.btn_ok);
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
 
         return view;
     }
@@ -87,6 +111,40 @@ public class TabDialog extends DialogFragment {
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
+        }
+    }
+
+    private class ColorHolder extends RecyclerView.ViewHolder {
+
+        public ColorHolder(View itemView) {
+            super(itemView);
+
+        }
+
+        public void bindColor() {
+
+        }
+    }
+
+    private class ColorAdapter extends RecyclerView.Adapter<ColorHolder> {
+
+        private static final int LENGTH = 3;
+
+        @Override
+        public ColorHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            View view = inflater
+                    .inflate(R.layout.item_color_circle, parent, false);
+            return new ColorHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ColorHolder holder, int position) {
+        }
+
+        @Override
+        public int getItemCount() {
+            return LENGTH;
         }
     }
 }

@@ -186,7 +186,7 @@ public class StateActivity extends AppCompatActivity {
         public CircleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(StateActivity.this);
             View view = inflater
-                    .inflate(R.layout.item_circle, parent, false);
+                    .inflate(R.layout.item_state_circle, parent, false);
             return new CircleHolder(view);
         }
 
