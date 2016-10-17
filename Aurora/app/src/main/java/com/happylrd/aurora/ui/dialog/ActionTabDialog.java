@@ -18,7 +18,7 @@ import com.happylrd.aurora.ui.fragment.CircleUnitFragment;
 
 import me.relex.circleindicator.CircleIndicator;
 
-public class TabDialog extends DialogFragment {
+public class ActionTabDialog extends DialogFragment {
 
     private ViewPager viewPager;
     private CircleIndicator circleIndicator;
@@ -28,12 +28,12 @@ public class TabDialog extends DialogFragment {
 
     private Button btn_ok;
 
-    public static TabDialog newInstance() {
-        TabDialog tabDialog = new TabDialog();
-        return tabDialog;
+    public static ActionTabDialog newInstance() {
+        ActionTabDialog actionTabDialog = new ActionTabDialog();
+        return actionTabDialog;
     }
 
-    public TabDialog() {
+    public ActionTabDialog() {
     }
 
     @Override
@@ -53,7 +53,10 @@ public class TabDialog extends DialogFragment {
         TabAdapter adapter = new TabAdapter(getChildFragmentManager());
 
         adapter.addFragment(CircleUnitFragment.newInstance(Color.YELLOW), "1");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "2");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.RED), "2");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.CYAN), "3");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "4");
+        adapter.addFragment(CircleUnitFragment.newInstance(Color.MAGENTA), "5");
 
         viewPager.setAdapter(adapter);
         circleIndicator.setViewPager(viewPager);

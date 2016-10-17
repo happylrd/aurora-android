@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,10 @@ import android.widget.Button;
 
 import com.github.pavlospt.CircleView;
 import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.Mode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StateActivity extends AppCompatActivity {
 
@@ -26,6 +32,8 @@ public class StateActivity extends AppCompatActivity {
 
     private CircleView cv_current_state;
     private CircleView cv_pre_state;
+
+    private FloatingActionButton fab_add_pattern;
 
     public static Intent newIntent(Context packageContext) {
         Intent intent = new Intent(packageContext, StateActivity.class);
@@ -39,11 +47,14 @@ public class StateActivity extends AppCompatActivity {
 
         initView();
         initListener();
+        initData();
     }
 
     private void initView() {
         cv_current_state = (CircleView) findViewById(R.id.cv_current_state);
         cv_pre_state = (CircleView) findViewById(R.id.cv_pre_state);
+
+        fab_add_pattern = (FloatingActionButton) findViewById(R.id.fab_add_pattern);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("状态选择");
@@ -57,6 +68,18 @@ public class StateActivity extends AppCompatActivity {
 
         mCircleAdapter = new CircleAdapter();
         mRecyclerView.setAdapter(mCircleAdapter);
+    }
+
+    private void initData(){
+        // temporarily placeholder
+        List<Mode> tempModeList = new ArrayList<>();
+
+        for(int i = 0; i < 18; i++){
+            Mode mode = new Mode();
+            tempModeList.add(mode);
+        }
+
+        mCircleAdapter.addAll(tempModeList);
     }
 
     private void initListener() {
@@ -75,9 +98,18 @@ public class StateActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        fab_add_pattern.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // add pattern logic
+            }
+        });
     }
 
     private class CircleHolder extends RecyclerView.ViewHolder {
+
+        private Mode mMode;
 
         private CircleView cv_item_light;
         private CircleView cv_item_sound;
@@ -173,14 +205,19 @@ public class StateActivity extends AppCompatActivity {
             });
         }
 
-        public void bindCircle() {
-
+        public void bindCircle(Mode mode) {
+            mMode = mode;
         }
     }
 
     private class CircleAdapter extends RecyclerView.Adapter<CircleHolder> {
+//        private static final int LENGTH = 100;
 
-        private static final int LENGTH = 100;
+        private List<Mode> mModeList;
+
+        public CircleAdapter() {
+            mModeList = new ArrayList<>();
+        }
 
         @Override
         public CircleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -192,12 +229,24 @@ public class StateActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(CircleHolder holder, int position) {
-
+            Mode mode = mModeList.get(position);
+            holder.bindCircle(mode);
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return mModeList.size();
+        }
+
+        public void add(Mode mode) {
+            mModeList.add(mode);
+            notifyDataSetChanged();
+        }
+
+        public void addAll(List<Mode> modes) {
+            mModeList.addAll(modes);
+            Log.d("modeList size: ", mModeList.size() + "");
+            notifyDataSetChanged();
         }
     }
 }
