@@ -21,6 +21,7 @@ import me.relex.circleindicator.CircleIndicator;
 public class ActionTabDialog extends DialogFragment {
 
     private ViewPager viewPager;
+    private TabAdapter adapter;
     private CircleIndicator circleIndicator;
 
     private RecyclerView mRecyclerView;
@@ -46,22 +47,10 @@ public class ActionTabDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_tab, container);
 
-        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        circleIndicator = (CircleIndicator)
-                view.findViewById(R.id.circle_indicator);
+        initView(view);
+        initListener();
+        initData();
 
-        TabAdapter adapter = new TabAdapter(getChildFragmentManager());
-
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.YELLOW), "1");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.RED), "2");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.CYAN), "3");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "4");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.MAGENTA), "5");
-
-        viewPager.setAdapter(adapter);
-        circleIndicator.setViewPager(viewPager);
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 8));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -69,15 +58,43 @@ public class ActionTabDialog extends DialogFragment {
         mColorAdapter = new ColorAdapter();
         mRecyclerView.setAdapter(mColorAdapter);
 
+        return view;
+    }
+
+    private void initView(View view) {
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        circleIndicator = (CircleIndicator) view.findViewById(R.id.circle_indicator);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         btn_ok = (Button) view.findViewById(R.id.btn_ok);
+    }
+
+    private void initListener() {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+    }
 
-        return view;
+    private void initData() {
+        adapter = new TabAdapter(getChildFragmentManager());
+
+        adapter.addFragment(CircleUnitFragment
+                        .newInstance(Color.YELLOW, getString(R.string.action_quick_in_out)),
+                getString(R.string.number_one));
+        adapter.addFragment(CircleUnitFragment
+                        .newInstance(Color.YELLOW, getString(R.string.action_fade_in_out)),
+                getString(R.string.number_two));
+        adapter.addFragment(CircleUnitFragment
+                        .newInstance(Color.YELLOW, getString(R.string.action_power_slow)),
+                getString(R.string.number_three));
+        adapter.addFragment(CircleUnitFragment
+                        .newInstance(Color.YELLOW, getString(R.string.action_power_quick)),
+                getString(R.string.number_four));
+
+        viewPager.setAdapter(adapter);
+        circleIndicator.setViewPager(viewPager);
     }
 
     private class ColorHolder extends RecyclerView.ViewHolder {
@@ -88,7 +105,6 @@ public class ActionTabDialog extends DialogFragment {
         }
 
         public void bindColor() {
-
         }
     }
 

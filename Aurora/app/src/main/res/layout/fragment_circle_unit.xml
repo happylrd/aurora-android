@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/md_keylines"
         android:layout_marginTop="@dimen/md_keylines"
-        android:text="blah blah blah blah blah"
+        android:text="blah blah blah blah blah blah"
         android:textColor="@color/white"
         android:textSize="14sp" />
 </LinearLayout>

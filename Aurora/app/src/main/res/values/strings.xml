@@ -8,6 +8,19 @@
     <string name="fit_running">Running</string>
     <string name="fit_cycling">Cycling</string>
 
+    <string name="number_one">1</string>
+    <string name="number_two">2</string>
+    <string name="number_three">3</string>
+    <string name="number_four">4</string>
+    <string name="number_five">5</string>
+    <string name="number_six">6</string>
+    <string name="number_seven">7</string>
+    <string name="number_eight">8</string>
+    <string name="number_nine">9</string>
+    <string name="number_ten">10</string>
+    <string name="number_eleven">11</string>
+    <string name="number_twelve">12</string>
+
     <string name="pattern_single_color">单色</string>
     <string name="pattern_gradation">渐变</string>
     <string name="pattern_thin_stripe">细条纹</string>

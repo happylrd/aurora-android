@@ -1,6 +1,5 @@
 package com.happylrd.aurora.ui.dialog;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
@@ -14,14 +13,14 @@ import android.widget.Button;
 
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.adapter.TabAdapter;
-import com.happylrd.aurora.ui.fragment.CircleUnitFragment;
 
 import me.relex.circleindicator.CircleIndicator;
 
 public class TabDialog extends DialogFragment {
 
-    private ViewPager viewPager;
-    private CircleIndicator circleIndicator;
+    private ViewPager mViewPager;
+    private TabAdapter mTabAdapter;
+    private CircleIndicator mCircleIndicator;
 
     private RecyclerView mRecyclerView;
     private ColorAdapter mColorAdapter;
@@ -46,19 +45,10 @@ public class TabDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_tab, container);
 
-        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        circleIndicator = (CircleIndicator)
-                view.findViewById(R.id.circle_indicator);
+        initView(view);
+        initListener();
+        initData();
 
-        TabAdapter adapter = new TabAdapter(getChildFragmentManager());
-
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.YELLOW), "1");
-        adapter.addFragment(CircleUnitFragment.newInstance(Color.GREEN), "2");
-
-        viewPager.setAdapter(adapter);
-        circleIndicator.setViewPager(viewPager);
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 8));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -66,15 +56,39 @@ public class TabDialog extends DialogFragment {
         mColorAdapter = new ColorAdapter();
         mRecyclerView.setAdapter(mColorAdapter);
 
+        return view;
+    }
+
+    private void initView(View view) {
+        mViewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        mCircleIndicator = (CircleIndicator) view.findViewById(R.id.circle_indicator);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         btn_ok = (Button) view.findViewById(R.id.btn_ok);
+    }
+
+    private void initListener() {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
+    }
 
-        return view;
+    private void initData() {
+        mTabAdapter = new TabAdapter(getChildFragmentManager());
+
+        initDataByFragment();
+
+        mViewPager.setAdapter(mTabAdapter);
+        mCircleIndicator.setViewPager(mViewPager);
+    }
+
+    /**
+     * a method for sub-class to process the logic of initializing data
+     */
+    public void initDataByFragment() {
+
     }
 
     private class ColorHolder extends RecyclerView.ViewHolder {
@@ -85,7 +99,6 @@ public class TabDialog extends DialogFragment {
         }
 
         public void bindColor() {
-
         }
     }
 
