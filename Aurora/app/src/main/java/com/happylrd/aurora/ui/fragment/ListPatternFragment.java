@@ -19,8 +19,10 @@ public class ListPatternFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private PatternAdapter mPatternAdapter;
-    private List<Integer> pics;
-    private String[] names = {"wave", "ball", "star", "go", "fire", "eye", "charse"};
+
+    private List<Integer> picResIdList;
+
+//    private String[] names = {"wave", "ball", "star", "go", "fire", "eye", "charse"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +31,7 @@ public class ListPatternFragment extends Fragment {
 
         initView(view);
         initListener();
+        initData();
 
         return view;
     }
@@ -38,15 +41,16 @@ public class ListPatternFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        pics = Arrays.asList(R.drawable.main_1, R.drawable.main_2, R.drawable.main_3,
-                R.drawable.main_4, R.drawable.main_5, R.drawable.main_6, R.drawable.main_7);
-
-        mPatternAdapter = new PatternAdapter(pics);
-        recyclerView.setAdapter(mPatternAdapter);
     }
 
     private void initListener() {
+    }
+
+    private void initData() {
+        picResIdList = Arrays.asList(R.drawable.main_1, R.drawable.main_2, R.drawable.main_3,
+                R.drawable.main_4, R.drawable.main_5, R.drawable.main_6, R.drawable.main_7);
+        mPatternAdapter = new PatternAdapter(picResIdList);
+        recyclerView.setAdapter(mPatternAdapter);
     }
 
     private class PatternHolder extends RecyclerView.ViewHolder {
@@ -64,13 +68,17 @@ public class ListPatternFragment extends Fragment {
                 }
             });
         }
+
+        public void bindPattern(int pattern) {
+            itemAvatar.setBackgroundResource(pattern);
+        }
     }
 
     private class PatternAdapter extends RecyclerView.Adapter<PatternHolder> {
-        private List<Integer> mContents;
+        private List<Integer> mPatternResIdList;
 
-        public PatternAdapter(List<Integer> contents) {
-            mContents = contents;
+        public PatternAdapter(List<Integer> patternResIdList) {
+            mPatternResIdList = patternResIdList;
         }
 
         @Override
@@ -78,18 +86,18 @@ public class ListPatternFragment extends Fragment {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater
                     .inflate(R.layout.item_pattern, parent, false);
-
             return new PatternHolder(view);
         }
 
         @Override
         public void onBindViewHolder(PatternHolder holder, int position) {
-            holder.itemAvatar.setBackgroundResource(mContents.get(position));
+            int pattern = mPatternResIdList.get(position);
+            holder.bindPattern(pattern);
         }
 
         @Override
         public int getItemCount() {
-            return mContents.size();
+            return mPatternResIdList.size();
         }
     }
 }

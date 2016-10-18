@@ -1,10 +1,12 @@
 package com.happylrd.aurora.ui.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.github.pavlospt.CircleView;
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.model.Mode;
+import com.happylrd.aurora.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +37,7 @@ public class StateActivity extends AppCompatActivity {
     private CircleView cv_current_state;
     private CircleView cv_pre_state;
 
-    private FloatingActionButton fab_add_pattern;
+    private FloatingActionButton fab_add_mode;
 
     public static Intent newIntent(Context packageContext) {
         Intent intent = new Intent(packageContext, StateActivity.class);
@@ -54,7 +58,7 @@ public class StateActivity extends AppCompatActivity {
         cv_current_state = (CircleView) findViewById(R.id.cv_current_state);
         cv_pre_state = (CircleView) findViewById(R.id.cv_pre_state);
 
-        fab_add_pattern = (FloatingActionButton) findViewById(R.id.fab_add_pattern);
+        fab_add_mode = (FloatingActionButton) findViewById(R.id.fab_add_mode);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("状态选择");
@@ -70,11 +74,11 @@ public class StateActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mCircleAdapter);
     }
 
-    private void initData(){
+    private void initData() {
         // temporarily placeholder
         List<Mode> tempModeList = new ArrayList<>();
 
-        for(int i = 0; i < 18; i++){
+        for (int i = 0; i < 18; i++) {
             Mode mode = new Mode();
             tempModeList.add(mode);
         }
@@ -99,12 +103,52 @@ public class StateActivity extends AppCompatActivity {
             }
         });
 
-        fab_add_pattern.setOnClickListener(new View.OnClickListener() {
+        fab_add_mode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // add pattern logic
+                addModeLogic();
             }
         });
+    }
+
+    // insert mode in ListPatternFragment
+    private void addModeLogic(){
+        showAddModeDialog();
+    }
+
+    private void showAddModeDialog(){
+        AlertDialog.Builder dialog =
+                new AlertDialog.Builder(StateActivity.this);
+        LayoutInflater inflater = LayoutInflater.from(StateActivity.this);
+        View dialogView = inflater.inflate(R.layout.dialog_et_text, null);
+
+        final EditText editText = (EditText) dialogView.findViewById(R.id.edit_text);
+//        editText.setText(tv_nick_name.getText());
+        editText.setSelection(editText.getText().length());
+
+        dialog.setTitle("设置模式名")
+                .setView(dialogView)
+                .setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (editText.getText().toString().equals("")) {
+                                    ToastUtil.showInputNotNullToast(StateActivity.this);
+                                } else {
+                                    String nickName = editText.getText().toString();
+//                                    updateNickName(nickName);
+                                }
+                            }
+                        })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+        dialog.create()
+                .show();
     }
 
     private class CircleHolder extends RecyclerView.ViewHolder {
