@@ -18,14 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.github.pavlospt.CircleView;
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.model.Mode;
+import com.happylrd.aurora.model.MyUser;
 import com.happylrd.aurora.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 
 public class StateActivity extends AppCompatActivity {
 
@@ -111,19 +116,17 @@ public class StateActivity extends AppCompatActivity {
         });
     }
 
-    // insert mode in ListPatternFragment
-    private void addModeLogic(){
+    private void addModeLogic() {
         showAddModeDialog();
     }
 
-    private void showAddModeDialog(){
+    private void showAddModeDialog() {
         AlertDialog.Builder dialog =
                 new AlertDialog.Builder(StateActivity.this);
         LayoutInflater inflater = LayoutInflater.from(StateActivity.this);
         View dialogView = inflater.inflate(R.layout.dialog_et_text, null);
 
         final EditText editText = (EditText) dialogView.findViewById(R.id.edit_text);
-//        editText.setText(tv_nick_name.getText());
         editText.setSelection(editText.getText().length());
 
         dialog.setTitle("设置模式名")
@@ -135,8 +138,8 @@ public class StateActivity extends AppCompatActivity {
                                 if (editText.getText().toString().equals("")) {
                                     ToastUtil.showInputNotNullToast(StateActivity.this);
                                 } else {
-                                    String nickName = editText.getText().toString();
-//                                    updateNickName(nickName);
+                                    String modeName = editText.getText().toString();
+                                    uploadModeName(modeName);
                                 }
                             }
                         })
@@ -149,6 +152,25 @@ public class StateActivity extends AppCompatActivity {
                         });
         dialog.create()
                 .show();
+    }
+
+    private void uploadModeName(String modeName) {
+        Mode mode = new Mode();
+        mode.setModeName(modeName);
+        mode.setAuthor(MyUser.getCurrentUser(MyUser.class));
+
+        mode.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    Toast.makeText(StateActivity.this, "添加模式成功", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Toast.makeText(StateActivity.this, "添加模式失败", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
     }
 
     private class CircleHolder extends RecyclerView.ViewHolder {
@@ -255,7 +277,6 @@ public class StateActivity extends AppCompatActivity {
     }
 
     private class CircleAdapter extends RecyclerView.Adapter<CircleHolder> {
-//        private static final int LENGTH = 100;
 
         private List<Mode> mModeList;
 
