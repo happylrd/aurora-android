@@ -45,7 +45,7 @@ public class PatternTabDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_tab, container);
+        View view = inflater.inflate(R.layout.dialog_pattern_tab, container);
 
         initView(view);
         initListener();

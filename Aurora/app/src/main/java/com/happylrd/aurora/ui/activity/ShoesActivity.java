@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -159,6 +161,23 @@ public class ShoesActivity extends AppCompatActivity {
         adapter.addFragment(mLeftShoeFragment, "左鞋");
         adapter.addFragment(mRightShoeFragment, "右鞋");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_shoes, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_item_done) {
+            // some logic for motion
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     static class Adapter extends FragmentPagerAdapter {
