@@ -9,6 +9,8 @@ public class Motion extends BmobObject {
     private String rotationName;
     private String actionName;
 
+    private GestureState gestureState;  // gestureState and motion is one to one
+
     public String getPatternName() {
         return patternName;
     }
@@ -39,5 +41,13 @@ public class Motion extends BmobObject {
 
     public void setActionName(String actionName) {
         this.actionName = actionName;
+    }
+
+    public GestureState getGestureState() {
+        return gestureState;
+    }
+
+    public void setGestureState(GestureState gestureState) {
+        this.gestureState = gestureState;
     }
 }

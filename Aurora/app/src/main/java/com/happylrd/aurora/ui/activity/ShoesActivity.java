@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import android.widget.FrameLayout;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.happylrd.aurora.R;
+import com.happylrd.aurora.model.Motion;
 import com.happylrd.aurora.ui.dialog.ActionTabDialog;
 import com.happylrd.aurora.ui.dialog.AnimTabDialog;
 import com.happylrd.aurora.ui.dialog.ColorPickerDialog;
@@ -31,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoesActivity extends AppCompatActivity {
+
+    private Motion mMotion = new Motion();
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -174,7 +178,8 @@ public class ShoesActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_item_done) {
-            // some logic for motion
+            Intent intent = StateActivity.newIntent(ShoesActivity.this, mMotion);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -227,6 +232,26 @@ public class ShoesActivity extends AppCompatActivity {
     private void showActionTabDialog() {
         ActionTabDialog actionTabDialog = ActionTabDialog.newInstance();
         actionTabDialog.show(getSupportFragmentManager(), "actionTabDialog");
+    }
+
+    public void setPatternMotionNameFromDialog(String patternMotionName) {
+        mMotion.setPatternName(patternMotionName);
+        Log.d("ReceivePatternData", mMotion.getPatternName());
+    }
+
+    public void setAnimationMotionNameFromDialog(String animationMotionName) {
+        mMotion.setAnimationName(animationMotionName);
+        Log.d("ReceiveAnimData", mMotion.getAnimationName());
+    }
+
+    public void setRotationMotionNameFromDialog(String rotationMotionName) {
+        mMotion.setRotationName(rotationMotionName);
+        Log.d("ReceiveRotationData", mMotion.getRotationName());
+    }
+
+    public void setActionMotionNameFromDialog(String actionMotionName) {
+        mMotion.setActionName(actionMotionName);
+        Log.d("ReceiveActionData", mMotion.getActionName());
     }
 
     private void showColorPickerDialog() {

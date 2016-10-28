@@ -2,11 +2,7 @@ package com.happylrd.aurora.model;
 
 import cn.bmob.v3.BmobObject;
 
-public class State extends BmobObject {
-
-    private Motion motion;
-
-    private Boolean isNormalState;
+public class GestureState extends BmobObject {
 
     private Boolean isToe;
     private Boolean isHeel;
@@ -15,21 +11,7 @@ public class State extends BmobObject {
     private Boolean isKickMid;
     private Boolean isKickHigh;
 
-    public Motion getMotion() {
-        return motion;
-    }
-
-    public void setMotion(Motion motion) {
-        this.motion = motion;
-    }
-
-    public Boolean getNormalState() {
-        return isNormalState;
-    }
-
-    public void setNormalState(Boolean normalState) {
-        isNormalState = normalState;
-    }
+    private Mode mode;  // mode and gestureState is one to many
 
     public Boolean getToe() {
         return isToe;
@@ -77,5 +59,13 @@ public class State extends BmobObject {
 
     public void setKickHigh(Boolean kickHigh) {
         isKickHigh = kickHigh;
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
     }
 }

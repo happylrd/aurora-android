@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.adapter.TabAdapter;
+import com.happylrd.aurora.ui.activity.ShoesActivity;
 import com.happylrd.aurora.ui.fragment.CircleUnitFragment;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -58,6 +59,13 @@ public class AnimTabDialog extends DialogFragment {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String animationMotionName = ((CircleUnitFragment)
+                        (adapter.getItem(viewPager.getCurrentItem())))
+                        .getMotionName();
+
+                ((ShoesActivity) getActivity())
+                        .setAnimationMotionNameFromDialog(animationMotionName);
+
                 dismiss();
             }
         });

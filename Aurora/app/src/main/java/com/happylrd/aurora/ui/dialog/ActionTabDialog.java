@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.adapter.TabAdapter;
+import com.happylrd.aurora.ui.activity.ShoesActivity;
 import com.happylrd.aurora.ui.fragment.CircleUnitFragment;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -58,6 +59,13 @@ public class ActionTabDialog extends DialogFragment {
         btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String actionMotionName = ((CircleUnitFragment)
+                        (adapter.getItem(viewPager.getCurrentItem())))
+                        .getMotionName();
+
+                ((ShoesActivity) getActivity())
+                        .setActionMotionNameFromDialog(actionMotionName);
+
                 dismiss();
             }
         });
@@ -67,10 +75,10 @@ public class ActionTabDialog extends DialogFragment {
         adapter = new TabAdapter(getChildFragmentManager());
 
         adapter.addFragment(CircleUnitFragment
-                        .newInstance(Color.YELLOW, getString(R.string.action_quick_in_out)),
+                        .newInstance(Color.YELLOW, getString(R.string.action_fade_in_out)),
                 getString(R.string.number_one));
         adapter.addFragment(CircleUnitFragment
-                        .newInstance(Color.YELLOW, getString(R.string.action_fade_in_out)),
+                        .newInstance(Color.YELLOW, getString(R.string.action_quick_in_out)),
                 getString(R.string.number_two));
         adapter.addFragment(CircleUnitFragment
                         .newInstance(Color.YELLOW, getString(R.string.action_power_slow)),
