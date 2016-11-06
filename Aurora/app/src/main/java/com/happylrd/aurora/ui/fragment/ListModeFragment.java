@@ -9,29 +9,32 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.happylrd.aurora.R;
 import com.happylrd.aurora.model.Mode;
+import com.happylrd.aurora.model.Motion;
+import com.happylrd.aurora.model.MyUser;
+import com.happylrd.aurora.model.NormalState;
+import com.happylrd.aurora.todo.ModeView;
 import com.happylrd.aurora.util.ToastUtil;
+import com.happylrd.aurora.util.ZhToEnMapUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 public class ListModeFragment extends Fragment {
+    private static final String TAG = "ListModeFragment";
+
+    private ZhToEnMapUtil mZhToEnMapUtil;
 
     private RecyclerView recyclerView;
     private ModeAdapter mModeAdapter;
-
-    private List<Integer> modePicResIdList;
-
-    private String[] mPlaceHoldModeNames =
-            {"wave", "ball", "star", "go", "fire", "eye", "charse"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,23 +59,27 @@ public class ListModeFragment extends Fragment {
     }
 
     private void initData() {
-        modePicResIdList = Arrays.asList(R.drawable.main_1, R.drawable.main_2, R.drawable.main_3,
-                R.drawable.main_4, R.drawable.main_5, R.drawable.main_6, R.drawable.main_7);
-
         mModeAdapter = new ModeAdapter();
         recyclerView.setAdapter(mModeAdapter);
 
         initModeData();
+
+        mZhToEnMapUtil = new ZhToEnMapUtil();
+        mZhToEnMapUtil.initMap(getActivity());
     }
 
     private void initModeData() {
         BmobQuery<Mode> query = new BmobQuery<>();
+        query.order("createdAt");
+        MyUser currentUser = MyUser.getCurrentUser(MyUser.class);
+        query.addWhereEqualTo("author", new BmobPointer(currentUser));
+
         query.findObjects(new FindListener<Mode>() {
             @Override
             public void done(List<Mode> list, BmobException e) {
                 if (e == null) {
                     Log.d("Find is null?", (list == null) + "");
-                    Log.d("Find state", "find success" + list.size());
+                    Log.d("Find size ", list.size() + "");
 
                     mModeAdapter.addAll(list);
                 } else {
@@ -83,32 +90,77 @@ public class ListModeFragment extends Fragment {
     }
 
     private class ModeHolder extends RecyclerView.ViewHolder {
+        // need to be tested and normalized
+        private ModeView mModeView;
 
-        private ImageView itemAvatar;
+        private Motion mPassMotion;
+
+        private String mPassModeName;
 
         public ModeHolder(View itemView) {
             super(itemView);
 
-            itemAvatar = (ImageView) itemView.findViewById(R.id.item_newlist_image);
-            itemAvatar.setOnClickListener(new View.OnClickListener() {
+            mPassMotion = new Motion();
+
+            mModeView = (ModeView) itemView.findViewById(R.id.item_mode_view);
+            mModeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    // can pass motion json to edison
+                    Log.d(TAG, getJsonByMotion());
+
+                    // can pass mode name to edison
+                    Log.d(TAG, mPassModeName);
                 }
             });
         }
 
-        /**
-         * just for compromise
-         *
-         * @param modePicResId
-         */
-        public void bindDefaultMode(int modePicResId) {
-            itemAvatar.setBackgroundResource(modePicResIdList.get(modePicResId));
+        public void bindMode(final Mode mode) {
+
+            mPassModeName = mode.getModeName();
+
+            BmobQuery<NormalState> query = new BmobQuery<>();
+            query.addWhereEqualTo("mode", mode);
+
+            query.findObjects(new FindListener<NormalState>() {
+                @Override
+                public void done(List<NormalState> list, BmobException e) {
+                    if (e == null) {
+                        BmobQuery<Motion> queryMotion = new BmobQuery<Motion>();
+                        queryMotion.addWhereEqualTo("normalState", list.get(0));
+
+                        queryMotion.findObjects(new FindListener<Motion>() {
+                            @Override
+                            public void done(List<Motion> list, BmobException e) {
+                                if (e == null) {
+                                    Log.d("FindMotion ", "success");
+
+                                    Motion tempMotion = list.get(0);
+
+                                    mModeView.setColorAndName(
+                                            tempMotion.getIntColorList(),
+                                            mode.getModeName(),
+                                            mZhToEnMapUtil.getEnValueByZhKey(tempMotion.getPatternName())
+                                    );
+
+                                    mPassMotion = list.get(0);
+                                } else {
+                                    Log.d("FindMotionStateFailed ", e.getMessage());
+                                }
+                            }
+                        });
+                    } else {
+                        Log.d("FindNormalStateFailed ", e.getMessage());
+                    }
+                }
+            });
         }
 
-        public void bindMode(Mode mode) {
-            itemAvatar.setBackgroundResource(R.drawable.main_2);
+        private String getJsonByMotion() {
+            Gson gson = new Gson();
+            String json = gson.toJson(mPassMotion);
+            return json;
         }
     }
 
@@ -118,11 +170,6 @@ public class ListModeFragment extends Fragment {
 
         public ModeAdapter() {
             mModeList = new ArrayList<>();
-            for (int i = 0; i < mPlaceHoldModeNames.length; i++) {
-                Mode mode = new Mode();
-                mode.setModeName(mPlaceHoldModeNames[i]);
-                mModeList.add(mode);
-            }
         }
 
         public ModeAdapter(List<Mode> modeList) {
@@ -133,7 +180,8 @@ public class ListModeFragment extends Fragment {
         public ModeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater
-                    .inflate(R.layout.item_mode, parent, false);
+                    .inflate(R.layout.item_mode_2, parent, false);
+
             return new ModeHolder(view);
         }
 
