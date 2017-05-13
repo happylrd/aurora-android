@@ -3,6 +3,7 @@ package com.happylrd.aurora.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.happylrd.aurora.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -87,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
                     initDefaultMode(myUser);
 
                     ToastUtil.showSignUpSuccessToast(SignupActivity.this);
-                    GoToLogin();
+//                    GoToLogin();
                 } else {
                     ToastUtil.showSignUpFailToast(SignupActivity.this);
                 }
@@ -123,7 +126,7 @@ public class SignupActivity extends AppCompatActivity {
         colors3.add(getResources().getColor(R.color.md_light_green_A200));
 
         List<Integer> colors4 = new ArrayList<>();
-        colors4.add(getResources().getColor(R.color.md_red_A400));
+        colors4.add(getResources().getColor(R.color.md_pink_A200));
         colors4.add(getResources().getColor(R.color.md_cyan_A200));
         colors4.add(getResources().getColor(R.color.md_purple_A200));
         colors4.add(getResources().getColor(R.color.md_yellow_500));
@@ -136,79 +139,117 @@ public class SignupActivity extends AppCompatActivity {
         colors5.add(getResources().getColor(R.color.md_purple_A200));
 
         List<Integer> colors6 = new ArrayList<>();
-        colors6.add(getResources().getColor(R.color.md_lime_A200));
-        colors6.add(getResources().getColor(R.color.md_red_600));
-        colors6.add(getResources().getColor(R.color.md_cyan_500));
+        colors6.add(getResources().getColor(R.color.md_lime_A400));
 
         List<Integer> colors7 = new ArrayList<>();
         colors7.add(getResources().getColor(R.color.md_white_1000));
         colors7.add(getResources().getColor(R.color.md_yellow_500));
         colors7.add(getResources().getColor(R.color.md_black_1000));
 
-        saveMode(myUser, getString(R.string.default_mode_1), colors1);
-        saveMode(myUser, getString(R.string.default_mode_2), colors2);
-        saveMode(myUser, getString(R.string.default_mode_3), colors3);
-        saveMode(myUser, getString(R.string.default_mode_4), colors4);
-        saveMode(myUser, getString(R.string.default_mode_5), colors5);
-        saveMode(myUser, getString(R.string.default_mode_6), colors6);
-        saveMode(myUser, getString(R.string.default_mode_7), colors7);
+        saveMode(myUser, getString(R.string.default_mode_1), colors1, getString(R.string.pattern_thin_stripe));
+//        saveMode(myUser, getString(R.string.default_mode_2), colors2, getString(R.string.pattern_thick_stripe));
+//        saveMode(myUser, getString(R.string.default_mode_3), colors3, getString(R.string.pattern_thin_stripe));
+//        saveMode(myUser, getString(R.string.default_mode_4), colors4, getString(R.string.pattern_half_stripe));
+//        saveMode(myUser, getString(R.string.default_mode_5), colors5, getString(R.string.pattern_thin_stripe));
+//        saveMode(myUser, getString(R.string.default_mode_6), colors6, getString(R.string.pattern_single_color));
+//        saveMode(myUser, getString(R.string.default_mode_7), colors7, getString(R.string.pattern_thin_stripe));
+
+
+
+        int delayTime = 1000;
+
+        dirtySaveModeWrapper(myUser, getString(R.string.default_mode_2),
+                colors2, getString(R.string.pattern_thick_stripe), delayTime);
+        dirtySaveModeWrapper(myUser, getString(R.string.default_mode_3),
+                colors3, getString(R.string.pattern_thin_stripe), delayTime * 2);
+        dirtySaveModeWrapper(myUser, getString(R.string.default_mode_4),
+                colors4, getString(R.string.pattern_half_stripe), delayTime * 3);
+        dirtySaveModeWrapper(myUser, getString(R.string.default_mode_5),
+                colors5, getString(R.string.pattern_thin_stripe), delayTime * 4);
+        dirtySaveModeWrapper(myUser, getString(R.string.default_mode_6),
+                colors6, getString(R.string.pattern_single_color), delayTime * 5);
+        dirtySaveModeWrapper(myUser, getString(R.string.default_mode_7),
+                colors7, getString(R.string.pattern_thin_stripe), delayTime * 6);
     }
 
-    private void saveMode(MyUser myUser, String modeName, final List<Integer> defaultColors) {
+    private void dirtySaveModeWrapper(
+            final MyUser myUser, final String modeName, final List<Integer> defaultColors,
+            final String defaultPatternName, int delayTime) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                saveMode(myUser, modeName, defaultColors, defaultPatternName);
+            }
+        }, delayTime);
+    }
+
+    private void saveMode(
+            MyUser myUser, String modeName, final List<Integer> defaultColors,
+            final String defaultPatternName) {
         Mode mode = new Mode();
         mode.setModeName(modeName);
         mode.setAuthor(myUser);
+
+        Log.d("saveModeMethodExecute", "worry");
 
         mode.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
                 if (e == null) {
-                    findModeById(objectId, defaultColors);
+                    findModeById(objectId, defaultColors, defaultPatternName);
                 } else {
-                    Log.d(TAG, "save mode failed");
+                    Log.i(TAG, "save mode failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void findModeById(String objectId, final List<Integer> defaultColors) {
+    private void findModeById(
+            String objectId, final List<Integer> defaultColors,
+            final String defaultPatternName) {
         BmobQuery<Mode> query = new BmobQuery<Mode>();
         query.getObject(objectId, new QueryListener<Mode>() {
             @Override
             public void done(Mode mode, BmobException e) {
                 if (e == null) {
-                    saveNormalState(mode, defaultColors);
+                    saveNormalState(mode, defaultColors, defaultPatternName);
 
-                    saveManyGestureState(mode, defaultColors, 2);
+                    saveManyGestureState(mode, defaultColors, 1, defaultPatternName);
                 } else {
-                    Log.d(TAG, "find mode failed");
+                    Log.i(TAG, "find mode failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void saveNormalState(Mode mode, final List<Integer> defaultColors) {
+    private void saveNormalState(
+            Mode mode, final List<Integer> defaultColors,
+            final String defaultPatternName) {
         NormalState mNormalState = new NormalState();
         mNormalState.setMode(mode);
         mNormalState.save(new SaveListener<String>() {
             @Override
             public void done(String objectId, BmobException e) {
                 if (e == null) {
-                    findNormalStateById(objectId, defaultColors);
+                    findNormalStateById(objectId, defaultColors, defaultPatternName);
                 } else {
-                    Log.d(TAG, "save normalState failed");
+                    Log.i(TAG, "save normalState failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void saveManyGestureState(Mode mode, final List<Integer> defaultColors, int size) {
+    private void saveManyGestureState(
+            Mode mode, final List<Integer> defaultColors, int size,
+            String defaultPatternName) {
         for (int i = 0; i < size; i++) {
-            saveGestureState(mode, defaultColors);
+            saveGestureState(mode, defaultColors, defaultPatternName);
         }
     }
 
-    private void saveGestureState(Mode mode, final List<Integer> defaultColors) {
+    private void saveGestureState(
+            Mode mode, final List<Integer> defaultColors,
+            final String defaultPatternName) {
 
         GestureState gestureState = new GestureState();
         gestureState.setToe(false);
@@ -224,47 +265,55 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void done(String objectId, BmobException e) {
                 if (e == null) {
-                    findGestureStateById(objectId, defaultColors);
+                    findGestureStateById(objectId, defaultColors, defaultPatternName);
                 } else {
-                    Log.d(TAG, "save gestureState failed");
+                    Log.i(TAG, "save gestureState failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void findNormalStateById(String objectId, final List<Integer> defaultColors) {
+    private void findNormalStateById(
+            String objectId, final List<Integer> defaultColors,
+            final String defaultPatternName) {
         BmobQuery<NormalState> queryNormalState = new BmobQuery<NormalState>();
         queryNormalState.getObject(objectId, new QueryListener<NormalState>() {
             @Override
             public void done(NormalState normalState, BmobException e) {
                 if (e == null) {
-                    saveMotionByNormalState(normalState, defaultColors);
+                    saveMotionByNormalState(normalState, defaultColors, defaultPatternName);
                 } else {
-                    Log.d(TAG, "find normalState failed");
+                    Log.i(TAG, "find normalState failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void findGestureStateById(String objectId, final List<Integer> defaultColors) {
+    private void findGestureStateById(
+            String objectId, final List<Integer> defaultColors,
+            final String defaultPatternName) {
         BmobQuery<GestureState> queryGestureState = new BmobQuery<GestureState>();
         queryGestureState.getObject(objectId, new QueryListener<GestureState>() {
             @Override
             public void done(GestureState gestureState, BmobException e) {
                 if (e == null) {
-                    saveMotionByGestureState(gestureState, defaultColors);
+                    saveMotionByGestureState(gestureState, defaultColors, defaultPatternName);
                 } else {
-                    Log.d(TAG, "find gestureState failed");
+                    Log.i(TAG, "find gestureState failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void saveMotionByNormalState(NormalState normalState, List<Integer> defaultColors) {
+    private void saveMotionByNormalState(
+            NormalState normalState, List<Integer> defaultColors,
+            String defaultPatternName) {
         Motion mMotion = new Motion();
 
         mMotion.setIntColorList(defaultColors);
-        mMotion.setPatternName(getString(R.string.pattern_thin_stripe));
+
+        mMotion.setPatternName(defaultPatternName);
+
         mMotion.setAnimationName(getString(R.string.anim_ramp));
         mMotion.setRotationName(getString(R.string.rotation_float_left));
         mMotion.setActionName(getString(R.string.action_fade_in_out));
@@ -278,17 +327,21 @@ public class SignupActivity extends AppCompatActivity {
                 if (e == null) {
                     // save motion success
                 } else {
-                    Log.d(TAG, "save motion failed");
+                    Log.i(TAG, "saveNormalMotion failed" + e.getMessage());
                 }
             }
         });
     }
 
-    private void saveMotionByGestureState(GestureState gestureState, List<Integer> defaultColors) {
+    private void saveMotionByGestureState(
+            GestureState gestureState, List<Integer> defaultColors,
+            String defaultPatternName) {
         Motion mMotion = new Motion();
 
         mMotion.setIntColorList(defaultColors);
-        mMotion.setPatternName(getString(R.string.pattern_thin_stripe));
+
+        mMotion.setPatternName(defaultPatternName);
+
         mMotion.setAnimationName(getString(R.string.anim_ramp));
         mMotion.setRotationName(getString(R.string.rotation_float_left));
         mMotion.setActionName(getString(R.string.action_fade_in_out));
@@ -302,7 +355,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (e == null) {
                     // save motion success
                 } else {
-                    Log.d(TAG, "save motion failed");
+                    Log.i(TAG, "saveGestureMotion failed" + e.getMessage());
                 }
             }
         });
